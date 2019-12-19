@@ -84,9 +84,9 @@ error: Failed to connect socket to '/var/run/libvirt/libvirt-sock': Permission d
 ```
 You may need to log out then login again, and run `make` again.
 
-# Working with the Environment
+## Working with the Environment
 
-## Bare Metal Hosts
+### Bare Metal Hosts
 
 This environment creates a set of VMs to manage as if they were bare metal
 hosts.  You can see the VMs using `virsh`.
@@ -190,7 +190,7 @@ status:
     state: ready
 ```
 
-## Provisioning a Machine
+### Provisioning a Machine
 
 This section describes how to trigger provisioning of a host via `Machine`
 objects as part of the `cluster-api` integration. This uses Cluster API V1alpha1
@@ -292,14 +292,14 @@ node-0     OK       ready                           ipmi://192.168.111.1:6230   
 node-1     OK       deprovisioning                  ipmi://192.168.111.1:6231   unknown            false
 ```
 
-## Provisioning a Cluster
+### Provisioning a Cluster
 
 The v1alpha2 deployment can be done with Ubuntu 18.04 or Centos 7 target host
 images.
 
-### Requirements
+#### Requirements
 
-#### Dev env size
+##### Dev env size
 
 The requirements for the dev env machine are, when deploying **Ubuntu** target
 hosts:
@@ -315,7 +315,7 @@ And when deploying **Centos** target hosts:
 The Minikube machine is deployed with 4GB of RAM, and 2 vCPUs, and the target
 hosts with 4 vCPUs and either 4GB of RAM (Ubuntu) or 8GB of RAM (Centos).
 
-### Environment variables
+#### Environment variables
 
 The following environment variables need to be set for **Centos**:
 
@@ -336,7 +336,7 @@ export IMAGE_OS=Ubuntu
 export DEFAULT_HOSTS_MEMORY=4096
 ```
 
-### Deploy the metal3 Dev env
+#### Deploy the metal3 Dev env
 
 ```sh
 ./01_prepare_host.sh
@@ -344,7 +344,7 @@ export DEFAULT_HOSTS_MEMORY=4096
 ./03_launch_mgmt_cluster.sh
 ```
 
-### Centos target hosts only, image update
+#### Centos target hosts only, image update
 
 If you want to deploy Ubuntu hosts, please skip to the next section.
 
@@ -361,7 +361,7 @@ awk '{print $1}' > \
 /opt/metal3-dev-env/ironic/html/images/centos-updated.qcow2.md5sum
 ```
 
-### Deploy the target cluster
+#### Deploy the target cluster
 
 ```sh
 ./scripts/v1alpha2/create_cluster.sh
@@ -369,13 +369,13 @@ awk '{print $1}' > \
 ./scripts/v1alpha2/create_worker.sh
 ```
 
-### Delete the target cluster
+#### Delete the target cluster
 
 ```sh
 kubectl delete cluster "${CLUSTER_NAME:-"test1"}" -n metal3
 ```
 
-## Directly Provisioning Bare Metal Hosts
+### Directly Provisioning Bare Metal Hosts
 
 It’s also possible to provision via the `BareMetalHost` interface directly
 without using the `cluster-api` integration.
@@ -428,7 +428,7 @@ NAME       STATUS   PROVISIONING STATUS   MACHINE   BMC                         
 node-0   OK       deprovisioning                  ipmi://192.168.111.1:6230   unknown            true
 ```
 
-## Running a Custom baremetal-operator
+### Running a Custom baremetal-operator
 
 The `baremetal-operator` comes up running in the cluster by default, using an
 image built from the `metal3-io/baremetal-operator` github repository.  If
@@ -449,7 +449,7 @@ cd ~/go/src/github.com/metal3-io/baremetal-operator
 make run
 ```
 
-## Running a Custom cluster-api-provider-baremetal
+### Running a Custom cluster-api-provider-baremetal
 
 There are two cluster-api related managers running in the cluster.  One
 includes set of generic controllers, and the other includes a custom Machine
@@ -468,7 +468,7 @@ cd ~/go/src/github.com/metal3-io/cluster-api-provider-baremetal
 make run
 ```
 
-## Accessing the Ironic API
+### Accessing the Ironic API
 
 Sometimes you may want to look directly at Ironic to debug something.
 The metal3-dev-env repository contains a clouds.yaml file with
